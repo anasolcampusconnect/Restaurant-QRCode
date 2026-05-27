@@ -4,15 +4,15 @@ import Navbar from "../components/common/Navbar";
 
 function KitchenLayout() {
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex h-screen overflow-hidden bg-gray-100">
 
       <Sidebar role="kitchen" />
 
-      <div className="flex-1">
+      <div className="flex-1 flex flex-col overflow-hidden">
 
-        <Navbar title="Kitchen Panel" />
+        <Navbar title="Kitchen Panel" role="kitchen" />
 
-        <div className="p-5">
+        <div className="flex-1 overflow-y-auto p-5">
           <Outlet />
         </div>
 
