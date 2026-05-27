@@ -4,16 +4,15 @@ import Navbar from "../components/common/Navbar";
 
 function WaiterLayout() {
   return (
-    <div className="flex min-h-screen bg-gray-100 overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-gray-100">
 
       <Sidebar role="waiter" />
 
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col overflow-hidden">
 
+        <Navbar title="Waiter Panel" role="waiter" />
 
-        <Navbar title="Waiter Panel" />
-
-        <div className="flex-1 overflow-y-auto -p-0">
+        <div className="flex-1 overflow-y-auto p-5">
           <Outlet />
         </div>
 

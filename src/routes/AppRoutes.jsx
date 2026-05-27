@@ -1,32 +1,24 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-
-// Customer Pages
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import Menu from "../pages/customer/Menu";
 import Cart from "../pages/customer/Cart";
 import Checkout from "../pages/customer/Checkout";
 import OrderSuccess from "../pages/customer/OrderSuccess";
 import TrackOrder from "../pages/customer/TrackOrder";
 
-// Auth
 import Login from "../pages/auth/Login";
-
-// Admin Pages
 import Dashboard from "../pages/admin/Dashboard";
 import Orders from "../pages/admin/Orders";
 import MenuManagement from "../pages/admin/MenuManagement";
 import Tables from "../pages/admin/Tables";
 import Analytics from "../pages/admin/Analytics";
 
-// Kitchen Pages
 import KitchenDashboard from "../pages/kitchen/KitchenDashboard";
 import LiveOrders from "../pages/kitchen/LiveOrders";
 
-// Waiter Pages
 import WaiterDashboard from "../pages/waiter/WaiterDashboard";
 import ActiveTables from "../pages/waiter/ActiveTables";
 import Bills from "../pages/waiter/Bills";
 
-// Layouts
 import CustomerLayout from "../layouts/CustomerLayout";
 import AdminLayout from "../layouts/AdminLayout";
 import KitchenLayout from "../layouts/KitchenLayout";
@@ -34,14 +26,12 @@ import WaiterLayout from "../layouts/WaiterLayout";
 
 function AppRoutes() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         
-        {/* DEFAULT ROUTE: Redirect root to login for staff */}
         <Route path="/" element={<Navigate to="/login" replace />} />
 
         {/* CUSTOMER ROUTES */}
-        {/* QR scan chesthe direct ga ikkadiki vastaru, no login required */}
         <Route element={<CustomerLayout />}>
           <Route path="/table/:id" element={<Menu />} />
           <Route path="/cart" element={<Cart />} />
@@ -50,7 +40,6 @@ function AppRoutes() {
           <Route path="/track-order" element={<TrackOrder />} />
         </Route>
 
-        {/* LOGIN FOR STAFF */}
         <Route path="/login" element={<Login />} />
 
         {/* ADMIN ROUTES */}
@@ -76,7 +65,7 @@ function AppRoutes() {
         </Route>
 
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

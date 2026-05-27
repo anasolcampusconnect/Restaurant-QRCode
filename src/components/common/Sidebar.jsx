@@ -41,7 +41,7 @@ function Sidebar({ role }) {
   };
 
   return (
-    <div className={`bg-gray-900 text-white min-h-screen flex flex-col transition-all duration-300 relative z-20 ${isOpen ? "w-64" : "w-20"}`}>
+    <div className={`bg-gray-900 text-white h-screen flex flex-col transition-all duration-300 relative z-20 ${isOpen ? "w-64" : "w-20"}`}>
       
       <button 
         onClick={() => setIsOpen(!isOpen)} 
