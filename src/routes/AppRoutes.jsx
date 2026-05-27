@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // Customer Pages
 import Menu from "../pages/customer/Menu";
@@ -34,7 +34,7 @@ import WaiterLayout from "../layouts/WaiterLayout";
 
 function AppRoutes() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         
         {/* DEFAULT ROUTE: Redirect root to login for staff */}
@@ -76,7 +76,7 @@ function AppRoutes() {
         </Route>
 
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
