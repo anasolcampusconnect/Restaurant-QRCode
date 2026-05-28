@@ -579,113 +579,24 @@ useEffect(() => {
       
       {/* GAP REDUCED */}
       <div className="grid grid-rows-2 grid-flow-col gap-x-4 gap-y-2 w-max pb-2">
-        
-        {[
-          {
-            id: 1,
-            name: "Veg Pizza",
-            type: "Veg",
-            rating: "4.9",
-            time: "20 mins",
-            price: 350, 
-            img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300",
-          },
-          {
-            id: 2,
-            name: "Chicken Wings",
-            type: "Non-Veg",
-            rating: "4.8",
-            time: "25 mins",
-            price: 450,
-            img: "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=300",
-          },
-          {
-            id: 3,
-            name: "Pasta",
-            type: "Veg",
-            time: "20 mins",
-            price: 340,
-            rating: "4.7",
-            img: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=300",
-          },
-          {
-            id: 4,
-            name: "Cold Coffee",
-            type: "Veg",
-            time: "10 mins",
-            price: 180,
-            rating: "4.6",
-            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7HN8AiGNBnRRMXEzB8ONaK4QJoAW0zhJ49A&s",
-          },
-          {
-            id: 5,
-            name: "Chicken Burger",
-            type: "Non-Veg",
-            time: "25 mins",
-            price: 290,
-            rating: "4.8",
-            img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300",
-          },
-          {
-            id: 6,
-            name: "Paneer Tikka",
-            type: "Veg",price: 320,
-            time: "25 mins",
-            rating: "4.9",
-            img: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=300",
-          },
-          {
-            id: 7,
-            name: "Aaloo Paratha",
-            type: "Veg",
-            price: 150,   
-            time: "15 mins",
-            rating: "4.9",
-            img: "https://static.toiimg.com/photo/53109843.cms",
-          },
-          {
-            id: 8,
-            name: "Matar Paneer",
-            type: "Veg",
-            price: 300,
-            time: "20 mins",
-            rating: "4.8",
-            img: "https://www.indianhealthyrecipes.com/wp-content/uploads/2021/03/matar-paneer.jpg",
-          },
-           {
-            id: 9,
-            name: "Chicken curry",
-            type: "Non-Veg",
-            price: 350,
-            time: "25 mins",
-            rating: "4.5",
-            img: "https://www.whiskaffair.com/wp-content/uploads/2021/10/Andhra-Chicken-Curry-2-3.jpg",
-          }, {
-            id: 10,
-            name: "Litti Chokha",
-            type: "Veg",
-            price: 200,
-            time: "20 mins",
-            rating: "4.8",
-            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNMCSGMKnU-zfMbGeIdYwtuTBhG8NELe7xSg&s",
-          }, {
-            id: 11,
-            name: "Rogan Josh",
-            type: "Non-Veg",
-            price: 400,
-            time: "30 mins",
-            rating: "4.9",
-            img: "https://static.toiimg.com/thumb/53192600.cms?width=1200&height=900",
-          }, {
-            id: 12,
-            name: "Dum Aloo",
-            type: "Veg",
-            time: "25 mins",
-            price: 280,
-            rating: "4.7",
-            img: "https://sinfullyspicy.com/wp-content/uploads/2024/01/1200-by-1200-images-3.jpg",
-          },
-        ].map((item) => (
+
+  {menuItems
+    .filter((item) =>
+      [
+        "Veg Pizza",
+        "Chicken Wings",
+        "Pasta",
+        "Cold Coffee",
+        "Paneer Tikka",
+        "Aaloo Paratha",
+        "Matar Paneer",
+        "Chicken Curry",
+        "Litti Chokha",
+        "Rogan Josh",
+        "Dum Aloo",
+      ].includes(item.name)
+    )
+    .map((item) => (
           <motion.div
             key={item.id}
             whileHover={{ y: -2 }}
