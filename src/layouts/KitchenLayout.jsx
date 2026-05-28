@@ -15,9 +15,7 @@ function KitchenLayout() {
         <div className="flex-1 overflow-y-auto p-5">
           <Outlet />
         </div>
-
       </div>
-
     </div>
   );
 }
