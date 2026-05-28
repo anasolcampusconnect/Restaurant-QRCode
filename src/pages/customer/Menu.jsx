@@ -238,6 +238,144 @@ useEffect(() => {
     "Refreshing mint mojito with lemon fizz and crushed ice.",
   img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600",
 },
+{
+  id: 15,
+  name: "Aaloo Paratha",
+  category: "Main Course",
+  price: 150,
+  rating: 4.9,
+  type: "Veg",
+  time: "15 mins",
+  spicy: "Medium",
+  description:
+    "Stuffed crispy paratha served with butter and curd.",
+  img: "https://static.toiimg.com/photo/53109843.cms",
+},
+{
+  id: 16,
+  name: "Litti Chokha",
+  category: "Main Course",
+  price: 200,
+  rating: 4.8,
+  type: "Veg",
+  time: "20 mins",
+  spicy: "Medium",
+  description:
+    "Traditional Bihari litti served with smoky chokha and fresh butter.",
+  img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNMCSGMKnU-zfMbGeIdYwtuTBhG8NELe7xSg&s",
+},
+
+{
+  id: 17,
+  name: "Chicken Wings",
+  category: "Starter",
+  price: 450,
+  rating: 4.8,
+  type: "Non-Veg",
+  time: "25 mins",
+  spicy: "High",
+  description:
+    "Crispy spicy chicken wings tossed in flavorful peri peri sauce.",
+  img: "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=600",
+},
+
+{
+  id: 18,
+  name: "Rogan Josh",
+  category: "Main Course",
+  price: 400,
+  rating: 4.9,
+  type: "Non-Veg",
+  time: "30 mins",
+  spicy: "Medium",
+  description:
+    "Authentic Kashmiri mutton curry cooked with aromatic spices.",
+  img: "https://static.toiimg.com/thumb/53192600.cms?width=1200&height=900",
+},
+
+{
+  id: 19,
+  name: "Pasta",
+  category: "Main Course",
+  price: 340,
+  rating: 4.7,
+  type: "Veg",
+  time: "20 mins",
+  spicy: "Low",
+  description:
+    "Creamy Italian pasta tossed with herbs and rich cheese sauce.",
+  img: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=600",
+},
+
+{
+  id: 20,
+  name: "Veg Pizza",
+  category: "Pizza",
+  price: 350,
+  rating: 4.9,
+  type: "Veg",
+  time: "20 mins",
+  spicy: "Medium",
+  description:
+    "Loaded veggie pizza topped with olives, capsicum, and mozzarella cheese.",
+  img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600",
+},
+
+{
+  id: 21,
+  name: "Paneer Tikka",
+  category: "Starter",
+  price: 320,
+  rating: 4.9,
+  type: "Veg",
+  time: "25 mins",
+  spicy: "Medium",
+  description:
+    "Soft paneer cubes marinated with spices and grilled to perfection.",
+  img: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=600",
+},
+
+{
+  id: 22,
+  name: "Matar Paneer",
+  category: "Main Course",
+  price: 300,
+  rating: 4.8,
+  type: "Veg",
+  time: "20 mins",
+  spicy: "Medium",
+  description:
+    "Fresh peas and paneer cooked in rich tomato onion gravy.",
+  img: "https://www.indianhealthyrecipes.com/wp-content/uploads/2021/03/matar-paneer.jpg",
+},
+
+{
+  id: 23,
+  name: "Chicken Curry",
+  category: "Main Course",
+  price: 350,
+  rating: 4.5,
+  type: "Non-Veg",
+  time: "25 mins",
+  spicy: "High",
+  description:
+    "Spicy and flavorful chicken curry cooked in traditional Indian style.",
+  img: "https://www.whiskaffair.com/wp-content/uploads/2021/10/Andhra-Chicken-Curry-2-3.jpg",
+},
+
+{
+  id: 24,
+  name: "Dum Aloo",
+  category: "Main Course",
+  price: 280,
+  rating: 4.7,
+  type: "Veg",
+  time: "25 mins",
+  spicy: "Medium",
+  description:
+    "Baby potatoes slow cooked in rich creamy North Indian gravy.",
+  img: "https://sinfullyspicy.com/wp-content/uploads/2024/01/1200-by-1200-images-3.jpg",
+},
   ];
 
   // ---------------- FILTER ----------------
@@ -363,11 +501,7 @@ useEffect(() => {
               <div className="flex gap-4 mt-7 flex-wrap">
                 <button className="bg-orange-500 hover:bg-orange-600 transition px-6 py-3 rounded-xl text-white font-semibold shadow-lg">
                   Explore Menu
-                </button>
-
-                <button className="bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition px-6 py-3 rounded-xl text-white font-semibold">
-                  Popular Dishes
-                </button>
+                </button>    
               </div>
             </motion.div>
           </div>
@@ -375,7 +509,7 @@ useEffect(() => {
       </div>
 
       {/* ---------------- SEARCH + FILTER ---------------- */}
-      <div className="sticky top-0 z-40 backdrop-blur-xl bg-white/80 border-b border-gray-100 shadow-sm">
+     <div className="backdrop-blur-xl bg-white/80 border-b border-gray-100 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex flex-col lg:flex-row gap-4 items-center">
             <div className="relative flex-1 w-full">
@@ -393,7 +527,13 @@ useEffect(() => {
               />
             </div>
 
-            <div className="flex gap-2 overflow-x-auto w-full lg:w-auto scrollbar-hide">
+           <div
+  className="flex gap-2 overflow-x-auto w-full lg:w-auto"
+  style={{
+    scrollbarWidth: "none",
+    msOverflowStyle: "none",
+  }}
+>
               {categories.map((cat) => (
                 <button
                   key={cat}
@@ -429,7 +569,13 @@ useEffect(() => {
     </div>
 
     {/* SCROLLABLE 2 ROW LAYOUT */}
-    <div className="overflow-x-auto scrollbar-hide">
+<div
+  className="overflow-x-auto"
+  style={{
+    scrollbarWidth: "none",
+    msOverflowStyle: "none",
+  }}
+>
       
       {/* GAP REDUCED */}
       <div className="grid grid-rows-2 grid-flow-col gap-x-4 gap-y-2 w-max pb-2">
@@ -440,6 +586,8 @@ useEffect(() => {
             name: "Veg Pizza",
             type: "Veg",
             rating: "4.9",
+            time: "20 mins",
+            price: 350, 
             img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300",
           },
           {
@@ -447,12 +595,16 @@ useEffect(() => {
             name: "Chicken Wings",
             type: "Non-Veg",
             rating: "4.8",
+            time: "25 mins",
+            price: 450,
             img: "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=300",
           },
           {
             id: 3,
             name: "Pasta",
             type: "Veg",
+            time: "20 mins",
+            price: 340,
             rating: "4.7",
             img: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=300",
           },
@@ -460,6 +612,8 @@ useEffect(() => {
             id: 4,
             name: "Cold Coffee",
             type: "Veg",
+            time: "10 mins",
+            price: 180,
             rating: "4.6",
             img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7HN8AiGNBnRRMXEzB8ONaK4QJoAW0zhJ49A&s",
           },
@@ -467,13 +621,16 @@ useEffect(() => {
             id: 5,
             name: "Chicken Burger",
             type: "Non-Veg",
+            time: "25 mins",
+            price: 290,
             rating: "4.8",
             img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300",
           },
           {
             id: 6,
             name: "Paneer Tikka",
-            type: "Veg",
+            type: "Veg",price: 320,
+            time: "25 mins",
             rating: "4.9",
             img: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=300",
           },
@@ -481,6 +638,8 @@ useEffect(() => {
             id: 7,
             name: "Aaloo Paratha",
             type: "Veg",
+            price: 150,   
+            time: "15 mins",
             rating: "4.9",
             img: "https://static.toiimg.com/photo/53109843.cms",
           },
@@ -488,31 +647,41 @@ useEffect(() => {
             id: 8,
             name: "Matar Paneer",
             type: "Veg",
+            price: 300,
+            time: "20 mins",
             rating: "4.8",
             img: "https://www.indianhealthyrecipes.com/wp-content/uploads/2021/03/matar-paneer.jpg",
           },
            {
             id: 9,
-            name: "Chicken shawarma",
+            name: "Chicken curry",
             type: "Non-Veg",
+            price: 350,
+            time: "25 mins",
             rating: "4.5",
-            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLRF1-4-dHmT2S4dWu2S1tH1Pjd6l-9TGOTw&s",
+            img: "https://www.whiskaffair.com/wp-content/uploads/2021/10/Andhra-Chicken-Curry-2-3.jpg",
           }, {
             id: 10,
             name: "Litti Chokha",
             type: "Veg",
+            price: 200,
+            time: "20 mins",
             rating: "4.8",
             img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNMCSGMKnU-zfMbGeIdYwtuTBhG8NELe7xSg&s",
           }, {
             id: 11,
             name: "Rogan Josh",
             type: "Non-Veg",
+            price: 400,
+            time: "30 mins",
             rating: "4.9",
             img: "https://static.toiimg.com/thumb/53192600.cms?width=1200&height=900",
           }, {
             id: 12,
             name: "Dum Aloo",
             type: "Veg",
+            time: "25 mins",
+            price: 280,
             rating: "4.7",
             img: "https://sinfullyspicy.com/wp-content/uploads/2024/01/1200-by-1200-images-3.jpg",
           },
@@ -560,6 +729,42 @@ useEffect(() => {
                 {item.rating}
               </span>
             </div>
+            <div className="flex items-center justify-between mt-0">
+  
+  <span className="text-[11px] font-bold text-orange-500">
+    ₹{item.price}
+  </span>
+
+  {getItemQuantity(item.id) === 0 ? (
+    <button
+      onClick={() => addToCart(item)}
+      className="w-7 h-7 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-sm"
+    >
+      <Plus size={14} />
+    </button>
+  ) : (
+    <div className="flex items-center gap-1">
+      
+      <button
+        onClick={() => decreaseQty(item.id)}
+        className="w-6 h-6 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center"
+      >
+        <Minus size={12} />
+      </button>
+
+      <span className="text-[11px] font-bold text-orange-600">
+        {getItemQuantity(item.id)}
+      </span>
+
+      <button
+        onClick={() => increaseQty(item.id)}
+        className="w-6 h-6 rounded-full bg-orange-500 text-white flex items-center justify-center"
+      >
+        <Plus size={12} />
+      </button>
+    </div>
+  )}
+</div>
           </motion.div>
         ))}
       </div>
@@ -647,7 +852,7 @@ useEffect(() => {
           <img
             src={item.img}
             alt={item.name}
-            className="w-full h-48 object-cover group-hover:scale-105 transition duration-500"
+            className="w-full h-40 object-cover group-hover:scale-105 transition duration-500"
           />
 
           {/* OVERLAY */}
