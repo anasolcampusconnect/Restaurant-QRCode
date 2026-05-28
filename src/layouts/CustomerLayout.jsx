@@ -1,4 +1,4 @@
-import { Outlet,useLocation } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ShoppingBag,
@@ -7,7 +7,7 @@ import {
 
 function CustomerLayout() {
   const location = useLocation();
-
+const { id } = useParams();
   const hideNavbar =
     location.pathname === "/cart" ||
     location.pathname === "/checkout";
@@ -53,7 +53,7 @@ function CustomerLayout() {
                   </span>
 
                   <span className="text-sm sm:text-[15px] font-bold text-orange-600">
-                    Table 5
+                    Table {id}
                   </span>
                 </div>
               </div>
