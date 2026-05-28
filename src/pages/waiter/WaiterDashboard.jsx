@@ -290,9 +290,9 @@ const [selectedFood, setSelectedFood] = useState("");
 
       {/* ADD TO ORDER POPUP */}
 {cartPopup && (
-  <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-6">
+  <div className="fixed inset-0 z-[999] bg-black/60 flex items-center justify-center lg:justify-end overflow-x-hidden overflow-y-auto p-2 sm:p-4 lg:pr-10">
 
-    <div className="bg-white w-full max-w-md shadow-2xl overflow-hidden rounded-lg">
+   <div className="bg-white w-full max-w-[95vw] lg:max-w-4xl shadow-2xl overflow-hidden rounded-lg relative lg:mr-8">
 
       {/* HEADER */}
       <div className="bg-orange-500 p-5 text-center relative">

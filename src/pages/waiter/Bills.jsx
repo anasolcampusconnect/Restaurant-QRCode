@@ -15,6 +15,16 @@ const WaiterBillingPanel = () => {
   const [showPrintModal, setShowPrintModal] = useState(false);
   const [selectedCustomerBill, setSelectedCustomerBill] = useState(null);
 
+  const [activeCustomer, setActiveCustomer] = useState(0);
+
+  const [showAddedPopup, setShowAddedPopup] = useState(false);
+  const [addedItemName, setAddedItemName] = useState("");
+
+  // ================= PAYMENT =================
+
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showPaymentSuccess, setShowPaymentSuccess] = useState(false);
+
   // ================= FOOD ITEMS =================
 
   const foodItems = [
@@ -90,9 +100,6 @@ const WaiterBillingPanel = () => {
       category: "Snacks",
       img: "https://cdn-icons-png.flaticon.com/512/5787/5787100.png",
     },
-
-    // ================= NEW SNACKS =================
-
     {
       name: "Spring Rolls",
       price: "$9",
@@ -119,9 +126,9 @@ const WaiterBillingPanel = () => {
     },
   ];
 
-  // ================= CUSTOMERS =================
+  // ================= CUSTOMER BILLS =================
 
-  const customers = [
+  const [customerBills, setCustomerBills] = useState([
     {
       name: "Customer 1",
       table: "Table 01",
@@ -162,12 +169,14 @@ const WaiterBillingPanel = () => {
         { item: "Chocolate Cake × 1", price: "$7" },
       ],
     },
-  ];
+  ]);
 
   // ================= FILTER =================
 
   const filteredItems = useMemo(() => {
+
     return foodItems.filter((item) => {
+
       const matchesSearch = item.name
         .toLowerCase()
         .includes(search.toLowerCase());
@@ -178,12 +187,15 @@ const WaiterBillingPanel = () => {
           : item.category === selectedCategory;
 
       return matchesSearch && matchesCategory;
+
     });
+
   }, [search, selectedCategory]);
 
   // ================= SAVE FUNCTION =================
 
   const handleSave = () => {
+
     setShowCreateModal(false);
     setShowReportModal(false);
 
@@ -192,16 +204,154 @@ const WaiterBillingPanel = () => {
     setTimeout(() => {
       setShowSuccessPopup(false);
     }, 2500);
+
+  };
+
+  // ================= ADD ITEM FUNCTION =================
+
+  const handleAddItem = (item) => {
+
+    const updatedBills = [...customerBills];
+
+    const numericPrice = Number(
+      item.price.replace("$", "")
+    );
+
+    const existingItemIndex =
+      updatedBills[activeCustomer].orders.findIndex(
+        (order) => order.item.includes(item.name)
+      );
+
+    if (existingItemIndex !== -1) {
+
+      const existingOrder =
+        updatedBills[activeCustomer].orders[
+          existingItemIndex
+        ];
+
+      const quantityMatch =
+        existingOrder.item.match(/×\s*(\d+)/);
+
+      const currentQty =
+        quantityMatch
+          ? Number(quantityMatch[1])
+          : 1;
+
+      const newQty = currentQty + 1;
+
+      existingOrder.item =
+        item.name + " × " + newQty;
+
+      existingOrder.price =
+        "$" + (numericPrice * newQty);
+
+    } else {
+
+      updatedBills[activeCustomer].orders.push({
+        item: item.name + " × 1",
+        price: item.price,
+      });
+
+    }
+
+    const total =
+      updatedBills[activeCustomer].orders.reduce(
+        (sum, order) => {
+          return (
+            sum +
+            Number(order.price.replace("$", ""))
+          );
+        },
+        0
+      );
+
+    updatedBills[activeCustomer].total =
+      "$" + total;
+
+    setCustomerBills(updatedBills);
+
+    setAddedItemName(item.name);
+
+    setShowAddedPopup(true);
+
+    setTimeout(() => {
+      setShowAddedPopup(false);
+    }, 2000);
+
+  };
+
+  // ================= PRINT FUNCTION =================
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  // ================= PAYMENT FUNCTION =================
+
+  const handleAcceptPayment = () => {
+
+    setShowPaymentModal(false);
+
+    setShowPaymentSuccess(true);
+
+    setTimeout(() => {
+      setShowPaymentSuccess(false);
+    }, 2500);
+
   };
 
   return (
+
     <div className="min-h-screen bg-gray-100 p-5">
+
+      {/* ================= SUCCESS POPUP ================= */}
+
+      {showSuccessPopup && (
+
+        <div className="fixed top-8 right-8 bg-green-500 text-white px-7 py-4 rounded-3xl shadow-2xl z-50">
+
+          <h2 className="text-lg font-bold">
+            ✅ Successfully Saved
+          </h2>
+
+        </div>
+
+      )}
+
+      {/* ================= ITEM ADDED POPUP ================= */}
+
+      {showAddedPopup && (
+
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 bg-black text-white px-7 py-4 rounded-3xl shadow-2xl z-50 animate-bounce">
+
+          <h2 className="font-bold text-lg">
+            🍽 {addedItemName} Added Successfully
+          </h2>
+
+        </div>
+
+      )}
+
+      {/* ================= PAYMENT SUCCESS POPUP ================= */}
+
+      {showPaymentSuccess && (
+
+        <div className="fixed top-8 right-8 bg-green-600 text-white px-7 py-4 rounded-3xl shadow-2xl z-50">
+
+          <h2 className="text-lg font-bold">
+            💳 Payment Accepted Successfully
+          </h2>
+
+        </div>
+
+      )}
 
       {/* ================= HEADER ================= */}
 
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-5">
 
         <div>
+
           <h1 className="text-3xl font-bold text-gray-800">
             🍽 Waiter Billing Dashboard
           </h1>
@@ -209,9 +359,10 @@ const WaiterBillingPanel = () => {
           <p className="text-gray-500 mt-1 text-sm">
             Manage orders, reports and customer payments
           </p>
+
         </div>
 
-        {/* BUTTONS */}
+        {/* ================= HEADER BUTTONS ================= */}
 
         <div className="flex gap-3 mt-4 lg:mt-0">
 
@@ -237,11 +388,11 @@ const WaiterBillingPanel = () => {
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
 
-        {/* ================= LEFT ================= */}
+        {/* ================= LEFT SECTION ================= */}
 
         <div className="xl:col-span-2 bg-white rounded-3xl p-5 shadow-sm">
 
-          {/* SEARCH */}
+          {/* ================= SEARCH ================= */}
 
           <div className="flex flex-col md:flex-row gap-3 mb-5">
 
@@ -249,34 +400,56 @@ const WaiterBillingPanel = () => {
               type="text"
               placeholder="Search food items..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) =>
+                setSearch(e.target.value)
+              }
               className="flex-1 border border-gray-300 rounded-3xl px-5 py-3 text-base outline-none focus:ring-2 focus:ring-orange-300"
             />
 
             <select
               value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
+              onChange={(e) =>
+                setSelectedCategory(e.target.value)
+              }
               className="border-2 border-gray-800 rounded-3xl px-5 py-3 text-base font-medium outline-none"
             >
               <option value="All">All</option>
-              <option value="Burgers">Burgers</option>
-              <option value="Pizza">Pizza</option>
-              <option value="Drinks">Drinks</option>
-              <option value="Desserts">Desserts</option>
-              <option value="Snacks">Snacks</option>
-              <option value="Indian">Indian</option>
-              <option value="Italian">Italian</option>
-              <option value="Rice">Rice</option>
+              <option value="Burgers">
+                Burgers
+              </option>
+              <option value="Pizza">
+                Pizza
+              </option>
+              <option value="Drinks">
+                Drinks
+              </option>
+              <option value="Desserts">
+                Desserts
+              </option>
+              <option value="Snacks">
+                Snacks
+              </option>
+              <option value="Indian">
+                Indian
+              </option>
+              <option value="Italian">
+                Italian
+              </option>
+              <option value="Rice">
+                Rice
+              </option>
             </select>
 
           </div>
 
-          {/* FOOD GRID */}
+          {/* ================= FOOD GRID ================= */}
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 
             {filteredItems.length > 0 ? (
+
               filteredItems.map((item, index) => (
+
                 <div
                   key={index}
                   className="bg-gray-50 rounded-[28px] p-3 border border-gray-100 hover:shadow-lg transition"
@@ -308,7 +481,12 @@ const WaiterBillingPanel = () => {
                         {item.price}
                       </span>
 
-                      <button className="bg-orange-500 hover:bg-orange-600 text-white w-11 h-11 rounded-full text-2xl font-bold">
+                      <button
+                        onClick={() =>
+                          handleAddItem(item)
+                        }
+                        className="bg-orange-500 hover:bg-orange-600 text-white w-11 h-11 rounded-full text-2xl font-bold transition hover:scale-110"
+                      >
                         +
                       </button>
 
@@ -317,8 +495,11 @@ const WaiterBillingPanel = () => {
                   </div>
 
                 </div>
+
               ))
+
             ) : (
+
               <div className="col-span-full text-center py-20">
 
                 <h2 className="text-3xl font-bold text-gray-400">
@@ -326,6 +507,7 @@ const WaiterBillingPanel = () => {
                 </h2>
 
               </div>
+
             )}
 
           </div>
@@ -342,16 +524,25 @@ const WaiterBillingPanel = () => {
 
           <div className="space-y-4">
 
-            {customers.map((customer, index) => (
+            {customerBills.map((customer, index) => (
+
               <div
                 key={index}
-                className="border border-gray-200 rounded-3xl p-4"
+                onClick={() =>
+                  setActiveCustomer(index)
+                }
+                className={`border rounded-3xl p-4 cursor-pointer transition-all duration-300 ${
+                  activeCustomer === index
+                    ? "border-orange-500 bg-orange-50 shadow-lg"
+                    : "border-gray-200"
+                }`}
               >
 
                 <div className="flex items-center justify-between mb-3">
 
                   <h3 className="font-bold text-lg">
-                    {customer.emoji} {customer.name}
+                    {customer.emoji}{" "}
+                    {customer.name}
                   </h3>
 
                   <span className="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-xs font-bold">
@@ -362,42 +553,62 @@ const WaiterBillingPanel = () => {
 
                 <div className="space-y-2">
 
-                  {customer.orders.map((order, i) => (
-                    <div
-                      key={i}
-                      className="flex justify-between text-gray-700 text-sm"
-                    >
-                      <span>{order.item}</span>
-                      <span className="font-semibold">
-                        {order.price}
-                      </span>
-                    </div>
-                  ))}
+                  {customer.orders.map(
+                    (order, i) => (
+
+                      <div
+                        key={i}
+                        className="flex justify-between text-gray-700 text-sm"
+                      >
+
+                        <span>
+                          {order.item}
+                        </span>
+
+                        <span className="font-semibold">
+                          {order.price}
+                        </span>
+
+                      </div>
+
+                    )
+                  )}
 
                 </div>
 
                 <div className="border-t mt-3 pt-3 flex justify-between font-bold">
+
                   <span>Total</span>
+
                   <span>{customer.total}</span>
+
                 </div>
 
               </div>
+
             ))}
 
           </div>
 
-          {/* BUTTONS */}
+          {/* ================= BILL BUTTONS ================= */}
 
           <div className="grid grid-cols-2 gap-3 mt-5">
 
             <button
-              onClick={() => setShowPrintModal(true)}
+              onClick={() =>
+                setShowPrintModal(true)
+              }
               className="bg-black hover:bg-gray-900 text-white py-3 rounded-3xl text-lg font-bold transition"
             >
               Print Bill
             </button>
 
-            <button className="bg-green-500 hover:bg-green-600 text-white py-3 rounded-3xl text-lg font-bold transition">
+            <button
+              onClick={() =>
+                setShowPaymentModal(true)
+              }
+              className="bg-green-500 hover:bg-green-600 text-white py-3 rounded-3xl text-lg font-bold transition"
+            >
               Accept Payment
             </button>
 
@@ -410,6 +621,7 @@ const WaiterBillingPanel = () => {
       {/* ================= CREATE ORDER MODAL ================= */}
 
       {showCreateModal && (
+
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
           <div className="bg-white w-[95%] max-w-lg rounded-3xl p-7">
@@ -427,17 +639,33 @@ const WaiterBillingPanel = () => {
               />
 
               <select className="w-full border rounded-2xl px-4 py-4">
-                <option>Select Table</option>
-                <option>Table 01</option>
-                <option>Table 02</option>
-                <option>Table 03</option>
+                <option>
+                  Select Table
+                </option>
+                <option>
+                  Table 01
+                </option>
+                <option>
+                  Table 02
+                </option>
+                <option>
+                  Table 03
+                </option>
               </select>
 
               <select className="w-full border rounded-2xl px-4 py-4">
-                <option>Select Food Item</option>
-                <option>Veg Burger</option>
-                <option>Pizza</option>
-                <option>Pasta</option>
+                <option>
+                  Select Food Item
+                </option>
+                <option>
+                  Veg Burger
+                </option>
+                <option>
+                  Pizza
+                </option>
+                <option>
+                  Pasta
+                </option>
               </select>
 
             </div>
@@ -445,7 +673,9 @@ const WaiterBillingPanel = () => {
             <div className="flex justify-end gap-4 mt-7">
 
               <button
-                onClick={() => setShowCreateModal(false)}
+                onClick={() =>
+                  setShowCreateModal(false)
+                }
                 className="px-6 py-3 rounded-2xl border"
               >
                 Cancel
@@ -463,11 +693,13 @@ const WaiterBillingPanel = () => {
           </div>
 
         </div>
+
       )}
 
       {/* ================= REPORT MODAL ================= */}
 
       {showReportModal && (
+
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
           <div className="bg-white w-[95%] max-w-xl rounded-3xl p-8">
@@ -479,23 +711,43 @@ const WaiterBillingPanel = () => {
             <div className="grid grid-cols-2 gap-4">
 
               <div className="bg-orange-100 rounded-3xl p-5">
-                <h3 className="font-bold">Today's Orders</h3>
-                <p className="text-4xl font-bold mt-2">120</p>
+                <h3 className="font-bold">
+                  Today's Orders
+                </h3>
+
+                <p className="text-4xl font-bold mt-2">
+                  120
+                </p>
               </div>
 
               <div className="bg-green-100 rounded-3xl p-5">
-                <h3 className="font-bold">Revenue</h3>
-                <p className="text-4xl font-bold mt-2">$2,400</p>
+                <h3 className="font-bold">
+                  Revenue
+                </h3>
+
+                <p className="text-4xl font-bold mt-2">
+                  $2,400
+                </p>
               </div>
 
               <div className="bg-blue-100 rounded-3xl p-5">
-                <h3 className="font-bold">Customers</h3>
-                <p className="text-4xl font-bold mt-2">86</p>
+                <h3 className="font-bold">
+                  Customers
+                </h3>
+
+                <p className="text-4xl font-bold mt-2">
+                  86
+                </p>
               </div>
 
               <div className="bg-purple-100 rounded-3xl p-5">
-                <h3 className="font-bold">Pending Bills</h3>
-                <p className="text-4xl font-bold mt-2">12</p>
+                <h3 className="font-bold">
+                  Pending Bills
+                </h3>
+
+                <p className="text-4xl font-bold mt-2">
+                  12
+                </p>
               </div>
 
             </div>
@@ -503,7 +755,9 @@ const WaiterBillingPanel = () => {
             <div className="flex justify-end gap-4 mt-8">
 
               <button
-                onClick={() => setShowReportModal(false)}
+                onClick={() =>
+                  setShowReportModal(false)
+                }
                 className="px-6 py-3 rounded-2xl border"
               >
                 Close
@@ -521,26 +775,102 @@ const WaiterBillingPanel = () => {
           </div>
 
         </div>
+
       )}
 
-      {/* ================= SUCCESS POPUP ================= */}
+      {/* ================= PAYMENT MODAL ================= */}
 
-      {showSuccessPopup && (
-        <div className="fixed top-8 right-8 bg-green-500 text-white px-7 py-4 rounded-3xl shadow-2xl z-50">
+      {showPaymentModal && (
 
-          <h2 className="text-lg font-bold">
-            ✅ Successfully Saved
-          </h2>
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
+          <div className="bg-white w-[95%] max-w-lg rounded-3xl p-8">
+
+            <h2 className="text-3xl font-bold mb-6">
+              💳 Accept Payment
+            </h2>
+
+            <div className="space-y-4">
+
+              <input
+                type="text"
+                placeholder="Customer Name"
+                className="w-full border rounded-2xl px-4 py-4"
+              />
+
+              <input
+                type="text"
+                placeholder="Card Number"
+                className="w-full border rounded-2xl px-4 py-4"
+              />
+
+              <div className="grid grid-cols-2 gap-4">
+
+                <input
+                  type="text"
+                  placeholder="Expiry Date"
+                  className="border rounded-2xl px-4 py-4"
+                />
+
+                <input
+                  type="password"
+                  placeholder="CVV"
+                  className="border rounded-2xl px-4 py-4"
+                />
+
+              </div>
+
+              <div className="bg-green-100 rounded-2xl p-4 flex justify-between">
+
+                <span className="font-bold">
+                  Total Amount
+                </span>
+
+                <span className="font-bold text-green-700">
+                  {
+                    customerBills[
+                      activeCustomer
+                    ].total
+                  }
+                </span>
+
+              </div>
+
+            </div>
+
+            <div className="flex justify-end gap-4 mt-8">
+
+              <button
+                onClick={() =>
+                  setShowPaymentModal(false)
+                }
+                className="px-6 py-3 border rounded-2xl"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={handleAcceptPayment}
+                className="bg-green-500 text-white px-6 py-3 rounded-2xl font-bold hover:bg-green-600 transition"
+              >
+                Pay Now
+              </button>
+
+            </div>
+
+          </div>
 
         </div>
+
       )}
 
       {/* ================= PRINT BILL MODAL ================= */}
 
       {showPrintModal && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-          <div className="bg-white w-[95%] max-w-2xl rounded-3xl p-8">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+
+          <div className="bg-white w-full max-w-3xl rounded-3xl p-8">
 
             <h2 className="text-3xl font-bold mb-6">
               🖨 Select Customer Bill
@@ -548,76 +878,109 @@ const WaiterBillingPanel = () => {
 
             <div className="grid grid-cols-2 gap-4 mb-7">
 
-              {customers.map((customer, index) => (
+              {customerBills.map((customer, index) => (
+
                 <button
                   key={index}
-                  onClick={() => setSelectedCustomerBill(customer)}
+                  onClick={() =>
+                    setSelectedCustomerBill(
+                      customer
+                    )
+                  }
                   className="bg-orange-100 hover:bg-orange-200 text-orange-700 py-4 rounded-2xl font-bold text-lg transition"
                 >
                   {customer.name}
                 </button>
+
               ))}
 
             </div>
 
             {selectedCustomerBill && (
+
               <div className="border rounded-3xl p-6 bg-gray-50">
 
                 <div className="flex justify-between items-center mb-5">
 
                   <h2 className="text-2xl font-bold">
                     {selectedCustomerBill.emoji}{" "}
-                    {selectedCustomerBill.name}
+                    {
+                      selectedCustomerBill.name
+                    }
                   </h2>
 
                   <span className="bg-green-100 text-green-600 px-4 py-2 rounded-full font-bold">
-                    {selectedCustomerBill.table}
+                    {
+                      selectedCustomerBill.table
+                    }
                   </span>
 
                 </div>
 
                 <div className="space-y-3">
 
-                  {selectedCustomerBill.orders.map((order, index) => (
-                    <div
-                      key={index}
-                      className="flex justify-between"
-                    >
-                      <span>{order.item}</span>
-                      <span className="font-semibold">
-                        {order.price}
-                      </span>
-                    </div>
-                  ))}
+                  {selectedCustomerBill.orders.map(
+                    (order, index) => (
+
+                      <div
+                        key={index}
+                        className="flex justify-between"
+                      >
+
+                        <span>
+                          {order.item}
+                        </span>
+
+                        <span className="font-semibold">
+                          {order.price}
+                        </span>
+
+                      </div>
+
+                    )
+                  )}
 
                 </div>
 
                 <div className="border-t mt-5 pt-4 flex justify-between text-2xl font-bold">
 
-                  <span>Total Bill</span>
+                  <span>
+                    Total Bill
+                  </span>
 
                   <span className="text-orange-500">
-                    {selectedCustomerBill.total}
+                    {
+                      selectedCustomerBill.total
+                    }
                   </span>
 
                 </div>
 
               </div>
+
             )}
 
             <div className="flex justify-end gap-4 mt-8">
 
               <button
                 onClick={() => {
+
                   setShowPrintModal(false);
-                  setSelectedCustomerBill(null);
+
+                  setSelectedCustomerBill(
+                    null
+                  );
+
                 }}
                 className="px-6 py-3 border rounded-2xl"
               >
                 Close
               </button>
 
-              <button className="bg-black text-white px-6 py-3 rounded-2xl font-bold">
+              <button
+                onClick={handlePrint}
+                className="bg-black text-white px-6 py-3 rounded-2xl font-bold hover:bg-gray-800 transition"
+              >
                 Print Now
               </button>
 
@@ -626,9 +989,11 @@ const WaiterBillingPanel = () => {
           </div>
 
         </div>
+
       )}
 
     </div>
+
   );
 };
 
