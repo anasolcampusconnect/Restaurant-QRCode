@@ -5,6 +5,8 @@ export default function WaiterDashboard() {
   const [showOrdersPopup, setShowOrdersPopup] = useState(false);
   const [showBillPopup, setShowBillPopup] = useState(false);
   const [showResponsePopup, setShowResponsePopup] = useState(false);
+  const [cartPopup, setCartPopup] = useState(false);
+const [selectedFood, setSelectedFood] = useState("");
 
   const tables = [
     {
@@ -87,6 +89,11 @@ export default function WaiterDashboard() {
 
     return "bg-green-100 text-green-700";
   };
+
+  const handleAddToOrder = (foodName) => {
+  setSelectedFood(foodName);
+  setCartPopup(true);
+};
 
   return (
     <div className="min-h-screen bg-[#F8F5F0] overflow-x-hidden relative">
@@ -281,6 +288,104 @@ export default function WaiterDashboard() {
         </div>
       )}
 
+      {/* ADD TO ORDER POPUP */}
+{cartPopup && (
+  <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-6">
+
+    <div className="bg-white w-full max-w-md shadow-2xl overflow-hidden rounded-lg">
+
+      {/* HEADER */}
+      <div className="bg-orange-500 p-5 text-center relative">
+
+        <button
+          onClick={() => setCartPopup(false)}
+          className="absolute right-4 top-2 text-white text-3xl font-bold"
+        >
+          ×
+        </button>
+
+        <div className="text-5xl mb-2">
+          🍽️
+        </div>
+
+        <h2 className="text-3xl font-black text-white">
+          Added To Order
+        </h2>
+
+      </div>
+
+      {/* BODY */}
+      <div className="p-6 text-center">
+
+        <h3 className="text-2xl font-black text-black mb-3">
+          {selectedFood}
+        </h3>
+
+        <p className="text-gray-500 leading-7 text-sm">
+          Item has been successfully added to the customer order list.
+          Kitchen has received the request instantly.
+        </p>
+
+        {/* ORDER DETAILS */}
+        <div className="bg-orange-50 border border-orange-200 p-4 mt-6 rounded-md">
+
+          <div className="flex justify-between mb-3">
+            <span className="font-semibold text-gray-700">
+              Table
+            </span>
+
+            <span className="font-black text-black">
+              #4
+            </span>
+          </div>
+
+          <div className="flex justify-between mb-3">
+            <span className="font-semibold text-gray-700">
+              Quantity
+            </span>
+
+            <span className="font-black text-black">
+              1
+            </span>
+          </div>
+
+          <div className="flex justify-between">
+            <span className="font-semibold text-gray-700">
+              Status
+            </span>
+
+            <span className="font-black text-green-600">
+              Sent To Kitchen
+            </span>
+          </div>
+
+        </div>
+
+        {/* BUTTONS */}
+        <div className="flex gap-3 mt-7">
+
+          <button
+            onClick={() => setCartPopup(false)}
+            className="flex-1 bg-black hover:bg-gray-800 text-white py-3 font-bold transition-all duration-300"
+          >
+            Close
+          </button>
+
+          <button
+            onClick={() => setCartPopup(false)}
+            className="flex-1 bg-orange-500 hover:bg-orange-600 text-white py-3 font-bold transition-all duration-300"
+          >
+            Continue
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+)}
+
       {/* HERO SECTION */}
       <div className="relative w-full h-[520px] overflow-hidden">
 
@@ -343,7 +448,7 @@ export default function WaiterDashboard() {
         </div>
       </div>
 
-      {/* SERVICES */}
+            {/* WAITER OPERATIONS */}
       <div className="bg-[#FAF7F2] py-10 px-6">
 
         <div className="text-center mb-10">
@@ -351,8 +456,13 @@ export default function WaiterDashboard() {
           <div className="w-24 h-[2px] bg-orange-200 mx-auto mb-4"></div>
 
           <h2 className="text-3xl font-black text-black">
-            Check our <span className="text-orange-500">Services</span>
+            Waiter Panel <span className="text-orange-500">Operations</span>
           </h2>
+
+          <p className="text-gray-500 text-sm mt-3 max-w-2xl mx-auto">
+            Manage restaurant activities smoothly with instant order handling,
+            smart table monitoring, fast billing, and premium customer support.
+          </p>
 
         </div>
 
@@ -360,34 +470,34 @@ export default function WaiterDashboard() {
 
           {[
             {
-              name: "Orders",
+              name: "Live Orders",
               image:
-                "https://images.unsplash.com/photo-1600891964092-4316c288032e?q=80&w=1200&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1200&auto=format&fit=crop",
             },
             {
-              name: "Tables",
+              name: "Table Status",
               image:
                 "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop",
             },
             {
-              name: "Breakfast",
+              name: "Quick Serve",
               image:
-                "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?q=80&w=1200&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=1200&auto=format&fit=crop",
             },
             {
-              name: "Pizza",
+              name: "Kitchen Updates",
               image:
-                "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1200&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=1200&auto=format&fit=crop",
             },
             {
-              name: "Billing",
+              name: "Smart Billing",
               image:
                 "https://images.unsplash.com/photo-1556740749-887f6717d7e4?q=80&w=1200&auto=format&fit=crop",
             },
             {
-              name: "Support",
+              name: "Guest Support",
               image:
-                "https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=1200&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1200&auto=format&fit=crop",
             },
           ].map((item) => (
             <div
@@ -395,7 +505,7 @@ export default function WaiterDashboard() {
               className="flex flex-col items-center group cursor-pointer"
             >
 
-              <div className="w-24 h-24 overflow-hidden shadow-xl">
+              <div className="w-24 h-24 overflow-hidden shadow-xl rounded-md">
 
                 <img
                   src={item.image}
@@ -405,7 +515,7 @@ export default function WaiterDashboard() {
 
               </div>
 
-              <p className="mt-3 font-bold text-gray-700 text-base group-hover:text-orange-500 transition-all duration-300">
+              <p className="mt-3 font-bold text-gray-700 text-base text-center group-hover:text-orange-500 transition-all duration-300">
                 {item.name}
               </p>
 
@@ -413,6 +523,8 @@ export default function WaiterDashboard() {
           ))}
         </div>
       </div>
+
+      
 
       {/* MAIN CONTENT */}
       <div className="px-5 md:px-8 py-8">
@@ -463,6 +575,113 @@ export default function WaiterDashboard() {
           ))}
         </div>
 
+              {/* TODAY'S SPECIAL MENU */}
+<section className="px-6 md:px-8 py-14">
+
+  {/* HEADER */}
+  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+
+    <div>
+      <h2 className="text-4xl font-black text-black">
+        Today's Special Menu
+      </h2>
+
+      <p className="text-gray-500 text-base mt-2">
+        Fast moving dishes and chef recommended specials.
+      </p>
+    </div>
+
+    <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 text-sm font-bold transition-all duration-300 shadow-md">
+      View Full Menu
+    </button>
+
+  </div>
+
+  {/* CARDS */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8 items-stretch">
+
+    {[
+      {
+        name: "Cheese Burst Pizza",
+        price: "$24",
+        status: "Best Seller",
+        image:
+          "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1200&auto=format&fit=crop",
+      },
+      {
+        name: "Chicken Grill",
+        price: "$32",
+        status: "Hot Item",
+        image:
+          "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop",
+      },
+      {
+        name: "Classic Burger",
+        price: "$18",
+        status: "Trending",
+        image:
+          "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1200&auto=format&fit=crop",
+      },
+      {
+        name: "Creamy Pasta",
+        price: "$21",
+        status: "Chef Choice",
+        image:
+          "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?q=80&w=1200&auto=format&fit=crop",
+      },
+    ].map((item) => (
+      <div
+        key={item.name}
+        className="bg-white shadow-xl overflow-hidden flex flex-col h-full hover:-translate-y-1 transition-all duration-300"
+      >
+
+        {/* IMAGE */}
+        <div className="relative">
+
+          <img
+            src={item.image}
+            alt={item.name}
+            className="w-full h-56 object-cover"
+          />
+
+          <div className="absolute top-4 left-4 bg-orange-500 text-white text-xs font-bold px-4 py-2 shadow-md">
+            {item.status}
+          </div>
+
+        </div>
+
+        {/* CONTENT */}
+        <div className="p-5 flex flex-col flex-grow">
+
+          <div className="flex items-start justify-between gap-3 mb-4">
+
+            <h3 className="text-2xl font-black text-black leading-tight">
+              {item.name}
+            </h3>
+
+            <span className="text-orange-500 text-3xl font-black whitespace-nowrap">
+              {item.price}
+            </span>
+
+          </div>
+
+          <p className="text-gray-500 text-base leading-8 flex-grow">
+            Prepared with fresh ingredients and served with premium quality taste.
+          </p>
+
+          <button
+  onClick={() => handleAddToOrder(item.name)}
+  className="w-full mt-6 bg-black hover:bg-orange-500 text-white py-4 text-base font-bold transition-all duration-300"
+>
+  Add to Order
+</button>
+
+        </div>
+
+      </div>
+    ))}
+  </div>
+</section>
         {/* ACTIVE TABLES */}
         <section className="mb-10">
 

@@ -25,7 +25,7 @@ const WaiterDashboard = () => {
   };
 
   return (
-    <div className="bg-[#f8f5ef] min-h-screen overflow-hidden">
+    <div className="bg-[#f8f5ef] min-h-screen w-full overflow-x-hidden">
 
       {/* ================= SERVICES SECTION ================= */}
 
@@ -209,7 +209,7 @@ const WaiterDashboard = () => {
           <div className="w-16 h-1 bg-[#ff6b00] mx-auto mt-4 rounded-full"></div>
         </div>
 
-        <div className="relative w-full overflow-hidden">
+        <div className="relative w-full overflow-x-hidden">
 
           <div className="flex animate-marquee gap-4 w-max">
 
@@ -473,8 +473,10 @@ const WaiterDashboard = () => {
           }
 
           .animate-marquee {
-            animation: marquee 24s linear infinite;
-          }
+  animation: marquee 24s linear infinite;
+  width: max-content;
+  will-change: transform;
+}
 
           .workflow-card {
             min-width: 300px;
@@ -507,19 +509,28 @@ const WaiterDashboard = () => {
           }
 
           .icon-box {
-            min-width: 56px;
-            height: 56px;
-            border-radius: 9999px;
-            background: #ff6b00;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            box-shadow: 0 6px 16px rgba(255,107,0,0.25);
-          }
-        `}
-      </style>
+  min-width: 56px;
+  height: 56px;
+  border-radius: 9999px;
+  background: #ff6b00;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 6px 16px rgba(255,107,0,0.25);
+}
+
+/* ADD THIS HERE */
+body {
+  overflow-x: hidden;
+}
+
+html {
+  overflow-x: hidden;
+}
+`}
+</style>
     </div>
   );
 };
